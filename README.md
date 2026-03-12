@@ -1,15 +1,30 @@
-## thc-clients
+THC Clients – Startup Funding Datasets
+======================================
 
-This repository contains curated lead lists for startup outreach, organized by region.
+This repository contains research agents and datasets for funded startups, organized by geography. Each region has its own folder with:
 
-- **Indian Startups**: Lead data and enrichment instructions for startups based in India.
-- **UK Startups**: Lead data and enrichment instructions for startups based in the United Kingdom.
-- **US Startups**: Lead data and enrichment instructions for startups based in the United States.
+- **AGENTS-\<Region\>.md**: Detailed brief for how the research agent should find, clean, and enrich data for that region.
+- **enrichment_instructions-\<Region\>.md**: Step‑by‑step instructions for enriching company and founder data, hiring signals, and outreach priorities.
+- **CSV files**: One or more UTF‑8 CSVs with one row per startup, ready for outreach workflows.
 
-Each regional folder typically includes:
+### Folder structure
 
-- **AGENTS.md**: High-level instructions and context for agents working with that region's leads.
-- **enrichment_instructions.md**: Detailed guidelines for enriching and validating lead data.
-- **CSV files** (where present): Structured lead datasets for that region.
+- **Indian Startups/**
+  - `AGENTS-India.md`
+  - `enrichment_instructions-INDIA.md`
+  - `*.csv` files such as `india-12_March_26.csv` containing Indian startups funded in 2026.
+- **UK Startups/**
+  - `AGENTS-UK.md`
+  - `enrichment_instructions-UK.md`
+  - `*.csv` files for UK startups funded in 2026.
+- **US Startups/**
+  - `AGENTS-US.md`
+  - `enrichment_instructions-US.md`
+  - `*.csv` files for US startups funded in 2026.
 
-Both the `main` and `agents` branches track the same folder structure. Use the `agents` branch for agent-specific workflows or experimentation, and `main` as the canonical source of truth.
+### How to use this repo
+
+- **To understand the research logic**: Start by reading the relevant `AGENTS-<Region>.md` file for the geography you care about.
+- **To run or extend research**: Follow the corresponding `enrichment_instructions-<Region>.md` file and append new rows to that region’s CSVs.
+- **To consume the data**: Load the CSVs into your analytics or outreach tooling (Sheets, Airtable, CRM, warehouse, etc.) and filter by stage, sector, or outreach priority as defined in the instructions.
+
