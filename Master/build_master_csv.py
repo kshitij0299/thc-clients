@@ -17,6 +17,13 @@ def find_source_csv_files(root: Path, master_dir_name: str = "Master") -> list[P
     return csv_files
 
 
+def has_linkedin_or_email(row: dict[str, str]) -> bool:
+    """Row is 'verified' if it has at least Founder LinkedIn URL or Founder Email."""
+    linkedin = (row.get("Founder LinkedIn URL") or "").strip()
+    email = (row.get("Founder Email") or "").strip()
+    return bool(linkedin or email)
+
+
 def infer_country_from_path(root: Path, file_path: Path) -> str:
     """
     Derive the 'country' label from the top-level folder under root.
@@ -80,6 +87,10 @@ def build_master_csv() -> None:
                     if key in seen_startup_names:
                         continue
                     seen_startup_names.add(key)
+
+                # Only include rows with at least LinkedIn or email (verified)
+                if not has_linkedin_or_email(row):
+                    continue
 
                 # Ensure all known master fields exist on the row
                 normalized_row: dict[str, str] = {}
