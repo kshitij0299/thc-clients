@@ -10,6 +10,7 @@ This document describes the automated workflow for maintaining weekly funding-le
   - `Indian Startups/`
   - `US Startups/`
   - `UK Startups/`
+  - `Master/` – aggregated verified master CSV only (see section 6).
 
 - **Inside each `<Geo> Startups/` folder:**
   - **Geo-specific enrichment guide:** `enrichment_instructions-<GEO>.md`  
@@ -196,7 +197,38 @@ For each geo (Indian/US/UK) processed:
 
 ---
 
-## 6. GIT / PR BEHAVIOR
+## 6. BUILD MASTER CSV (END OF EVERY RUN)
+
+After the verification pass (section 5), **always** run the Master build so the combined verified list is updated.
+
+### 6.1 What it does
+
+- **Builds** `Master/master_startups.csv` from **all** `*.csv` files under the repo (excluding the `Master/` folder).
+- **Verified only:** includes only rows that have at least **Founder LinkedIn URL** or **Founder Email** (non-empty).
+- **Deduplicates** by **Startup Name** (case-insensitive); adds a **Country** column from the top-level folder name (e.g. Indian Startups, UK Startups, US Startups).
+
+### 6.2 How to run it
+
+From the **repo root**:
+
+```bash
+python3 "Master/build_master_csv.py"
+```
+
+Or use the pipeline script (same effect):
+
+```bash
+python3 "Master/run_master_pipeline.py"
+```
+
+### 6.3 When to run it
+
+- Run **at the end of every automation run**, after verification (section 5).
+- Then proceed to git/PR if applicable (section 7).
+
+---
+
+## 7. GIT / PR BEHAVIOR
 
 - **Stage only** the new CSVs created in this run.
 - **If** the "Open Pull Request" tool is enabled:
@@ -206,7 +238,7 @@ For each geo (Indian/US/UK) processed:
 
 ---
 
-## 7. GENERAL QUALITY RULES
+## 8. GENERAL QUALITY RULES
 
 - Always obey each geo's `enrichment_instructions-<GEO>.md` and `AGENTS-<GEO>.md`.
 - Prefer **accuracy over volume**: do not fabricate data to hit exactly 20 entries; “~20 high-quality leads” is the goal, not a hard quota.
